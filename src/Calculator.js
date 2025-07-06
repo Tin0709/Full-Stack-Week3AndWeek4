@@ -1,9 +1,24 @@
 import React from 'react';
 
-function Calculator() {
+
+function Button({ value, onClick, className }) {
   return (
+    <button className={`btn ${className} m-1`} style={{ width: '60px', height: '60px', fontSize: '1.5rem' }}>
+      {value}
+    </button>
+  );
+}
+
+const buttonRows = [
+  ['7', '8', '9', '/'],
+  ['4', '5', '6', '*'],
+  ['1', '2', '3', '-'],
+  ['0', '=', '+']
+];
+function Calculator() {
+   return (
     <div className="container mt-5">
-      <div className="card mx-auto" style={{ width: "340px" }}>
+      <div className="card mx-auto" style={{ width: "275px" }}>
         <div className="card-body">
           <input
             type="text"
@@ -12,31 +27,18 @@ function Calculator() {
             readOnly
             style={{ fontSize: "2rem" }}
           />
-          <div className="d-grid gap-2">
-            <div className="row mb-2">
-              <button className="col btn btn-light">7</button>
-              <button className="col btn btn-light">8</button>
-              <button className="col btn btn-light">9</button>
-              <button className="col btn btn-secondary">/</button>
+          {buttonRows.map((row, idx) => (
+            <div className="d-flex justify-content-between mb-2" key={idx}>
+              {row.map(btn => {
+                let className = 'btn-light';
+                if (['/', '*', '-', '+'].includes(btn)) className = 'btn-secondary';
+                if (btn === '=') className = 'btn-primary';
+                return (
+                  <Button key={btn} value={btn} className={className} />
+                );
+              })}
             </div>
-            <div className="row mb-2">
-              <button className="col btn btn-light">4</button>
-              <button className="col btn btn-light">5</button>
-              <button className="col btn btn-light">6</button>
-              <button className="col btn btn-secondary">*</button>
-            </div>
-            <div className="row mb-2">
-              <button className="col btn btn-light">1</button>
-              <button className="col btn btn-light">2</button>
-              <button className="col btn btn-light">3</button>
-              <button className="col btn btn-secondary">-</button>
-            </div>
-            <div className="row">
-              <button className="col btn btn-light">0</button>
-              <button className="col btn btn-primary">=</button>
-              <button className="col btn btn-secondary">+</button>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
